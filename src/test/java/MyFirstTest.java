@@ -15,11 +15,13 @@ public class MyFirstTest {
                 driver.getTitle().startsWith("DaWanda"));
 
         Homepage home = new Homepage(driver);
-        DaActions.OpenRegpageViaHeader(home);
-
+        home.HeaderRegLink().click();
         Assert.assertTrue("title should start with DaWanda",
                 driver.getTitle().startsWith("DaWanda"));
-
+        AccountLogin accountLogin = new AccountLogin(driver);
+        accountLogin.RegisterLink().click();
+        Assert.assertTrue("title should start with DaWanda",
+                driver.getTitle().startsWith("DaWanda"));
 
 
 
