@@ -9,11 +9,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Register
 {
+    WebDriver driver = new FirefoxDriver();
+    String baseUrl = "http://dawanda.com";
+
     @Test
     public void main () {
         Homepage homepage = new Homepage();
-        homepage.OpenHomepage();
-        homepage.OpenRegPage();
+        homepage.OpenHomepage(driver, baseUrl);
+        homepage.OpenRegPage(driver);
     }
 
 
