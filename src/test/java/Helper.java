@@ -12,11 +12,15 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by mrusanova on 11/28/16.
  */
-public class DaActions {
+public class Helper {
 
+    private final WebDriver driver;
 
+    public Helper(WebDriver driver) {
+        this.driver = driver;
+    }
 
-    public int generateRandID() {
+    public static int generateRandID() {
         int max = 2000000000;
         int min = 1000000000;
         Random rand = new Random();
@@ -24,7 +28,7 @@ public class DaActions {
         return randID;
     }
 
-    public void Logout(WebDriver driver) {
+    public void logout() {
 
         String javaScript = "document.getElementById('shared_header_user_nav').classList.add('open')";
         ((JavascriptExecutor) driver).executeScript(javaScript);
@@ -40,7 +44,7 @@ public class DaActions {
 
     }
 
-    public void OpenLoginPage(WebDriver driver) {
+    public void openLoginPage() {
 
 
         String javaScript = "document.getElementById('shared_header_user_nav').classList.add('open')";
@@ -54,7 +58,7 @@ public class DaActions {
 
     }
 
-    public void Login(WebDriver driver, String Email, String Password) throws InterruptedException {
+    public void login(String Email, String Password) throws InterruptedException {
 
         driver.findElement(By.id("username")).sendKeys(Email);
 

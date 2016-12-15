@@ -11,8 +11,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class Homepage {
 
+    private final WebDriver driver;
 
-    public void OpenHomepage(WebDriver driver, String baseUrl) {
+    public Homepage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void OpenHomepage(String baseUrl) {
 
         driver.get(baseUrl);
         WebElement homepageDesc = driver.findElement(By.className("homepage-description"));
@@ -20,7 +25,8 @@ public class Homepage {
 
     }
 
-    public void OpenRegPage(WebDriver driver) {
+    public void OpenRegPage() {
+
         String javaScript = "document.getElementById('shared_header_user_nav').classList.add('open')";
         ((JavascriptExecutor) driver).executeScript(javaScript);
 

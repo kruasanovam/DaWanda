@@ -1,78 +1,131 @@
 import org.junit.Assert;
 import org.openqa.selenium.*;
 
-import java.util.concurrent.TimeUnit;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by mrusanova on 12/14/16.
  */
 public class RegPage {
 
-    DaActions actions = new DaActions();
-    int randomID = actions.generateRandID();
+    private final static int randomID = Helper.generateRandID();
 
-    String FirstName = "Some First Name";
-    String LastName = "Some Last Name";
-    String Username = "frontend-test-user-" + randomID;
-    String Email = "mariatesting89+" + randomID + "@gmail.com";
-    //String Email = "mariatesting89+1095389771@gmail.com";
-    String Password = "Welcome1";
+    public WebDriver driver;
+    UserInfo userInfo = new UserInfo();
 
-    public void FillForm(WebDriver driver) {
 
-        driver.findElement(By.id("firstname")).sendKeys(FirstName);
+    public WebElement FillFname ()
+    {
+        driver.findElement(By.id("firstname")).sendKeys(UserInfo.firstname);
+        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;firstname']"));
+        return errID;
+    }
 
-        driver.findElement(By.id("lastname")).sendKeys(LastName);
+    public WebElement FillLname ()
+    {
+        driver.findElement(By.id("lastname")).sendKeys(UserInfo.lastname);
+        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;lastname']"));
+        return errID;
+    }
 
-        driver.findElement(By.id("username")).sendKeys(Username);
+    public WebElement FillUserName ()
+    {
+        driver.findElement(By.id("username")).sendKeys(UserInfo.username);
+        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;username']"));
+        return errID;
+    }
 
-        driver.findElement(By.id("email")).sendKeys(Email);
+    public WebElement FillEmail ()
+    {
+        driver.findElement(By.id("email")).sendKeys(email);
+        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;email']"));
+        return errID;
+    }
 
-        driver.findElement(By.id("password")).sendKeys(Password);
+    public WebElement FillPassword ()
+    {
+        driver.findElement(By.id("password")).sendKeys(password);
+        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;password']"));
+        return errID;
+    }
 
+    public WebElement FillTC ()
+    {
         driver.findElement(By.id("accept_privacy")).click();
+        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;terms']"));
+        return errID;
+    }
+
+    public void ClickSubmit ()
+    {
+        driver.findElement(By.id("register_submit")).click();
+    }
+
+
+    public void ValidForm (WebDriver driver)
+    {
+        firstname="Some FirstName";
+        lastname="Some LastName";
+        username="frontend-test-user-" + randomID;
+        email="mariatesting89+" + randomID + "@gmail.com";
+        password="Welcome1";
+        FillFname();
+        FillLname();
+        FillUserName();
+        FillEmail();
+        FillPassword();
+        FillTC();
+        ClickSubmit();
+    }
+
+    public void BlankForm (WebDriver driver)
+    {
+        FillFname();
+        FillLname();
+        FillUserName();
+        FillEmail();
+        FillPassword();
+        FillTC();
+        ClickSubmit();
 
     }
 
-    public void FillBlankForm(WebDriver driver) {
 
-        driver.findElement(By.id("register_submit")).click();
+    public void happySubmitRegForm() {
+        String verifyTextExp = "We sent a confirmation link to " + email + ". Clicking it will grant you full access to your DaWanda account.";
 
-    }
-
-
-    public void HappySubmitRegForm(WebDriver driver) {
-        String verifyTextExp = "We sent a confirmation link to " + Email + ". Clicking it will grant you full access to your DaWanda account.";
-
-        FillForm(driver);
-
-        driver.findElement(By.id("register_submit")).click();
+        ValidForm(driver);
 
         WebElement verifyEmailSection = driver.findElement(By.id("validate_email_page"));
-        Assert.assertEquals(true, verifyEmailSection.isDisplayed());
+        assertEquals(true, verifyEmailSection.isDisplayed());
 
         WebElement hintSection = driver.findElement(By.id("validate_email_hint"));
-        Assert.assertEquals(true, hintSection.isDisplayed());
+        assertEquals(true, hintSection.isDisplayed());
 
         String verifyTextAct = driver.findElement(By.id("validate_email_hint")).getText();
 
-        Assert.assertEquals(verifyTextAct, verifyTextExp);
+        assertEquals(verifyTextAct, verifyTextExp);
 
     }
 
-    public void BlankSubmitRegForm(WebDriver driver)
-    {
-        FillBlankForm(driver);
+    public void blankSubmitRegForm() {
+
+        boolean test =
+        assertEquals(true,FillLname().isDisplayed());
+        assertEquals(true,FillUserName().isDisplayed());
+        assertEquals(true,FillEmail().isDisplayed());
+        assertEquals(true,FillPassword().isDisplayed());
+        assertEquals(true,FillTC().isDisplayed());
         WebElement regpageArticle = driver.findElement(By.xpath("//article[@id='registration_page']"));
-        Assert.assertEquals(true, regpageArticle.isDisplayed());
-        int errorCount = driver.findElements(By.xpath("//div[@class='validation-msg invalid']")).size();
-        Assert.assertEquals(7, errorCount);
-    }
-
-
-
-
-
+        assertEquals(true, regpageArticle.isDisplayed());
 
     }
+
+      //  int errorCount = driver.findElements(By.xpath("//div[@class='validation-msg invalid']")).size();
+      //  assertEquals(7, errorCount);
+   // }
+
+
+}
 
