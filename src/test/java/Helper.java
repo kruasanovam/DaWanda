@@ -16,6 +16,7 @@ public class Helper {
 
     private final WebDriver driver;
 
+
     public Helper(WebDriver driver) {
         this.driver = driver;
     }

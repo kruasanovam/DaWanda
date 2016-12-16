@@ -1,4 +1,4 @@
-import org.openqa.selenium.WebDriver;
+
 
 /**
  * Created by mrusanova on 12/15/16.
@@ -13,17 +13,20 @@ public class UserInfo {
 
 
     public UserInfo() {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+
 
     }
 
+    public void SetValidInfo()
 
-
-
+    {
+        int randomID = Helper.generateRandID();
+        firstname = "Some First Name";
+        lastname = "Some Last Name";
+        username = "frontend-test-user-" + randomID;
+        email = "mariatesting89+" + randomID + "@gmail.com";
+        password = "Welcome1";
+    }
 
 
 

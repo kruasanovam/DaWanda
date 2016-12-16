@@ -1,60 +1,62 @@
 import org.junit.Assert;
-import org.openqa.selenium.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
- * Created by mrusanova on 12/14/16.
+ * Created by mrusanova on 12/16/16.
  */
 public class RegPage {
 
-    private final static int randomID = Helper.generateRandID();
+    private final WebDriver driver;
+    public UserInfo userInfo = new UserInfo();
 
-    public WebDriver driver;
-    UserInfo userInfo = new UserInfo();
-
-
-    public WebElement FillFname ()
-    {
-        driver.findElement(By.id("firstname")).sendKeys(UserInfo.firstname);
-        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;firstname']"));
-        return errID;
+    public RegPage(WebDriver driver) {
+        this.driver = driver;
     }
 
-    public WebElement FillLname ()
+    public boolean getError (String fieldName)
     {
-        driver.findElement(By.id("lastname")).sendKeys(UserInfo.lastname);
-        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;lastname']"));
-        return errID;
+        WebElement error = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;"+fieldName+"']"));
+        boolean result = error.isDisplayed();
+        return result;
     }
 
-    public WebElement FillUserName ()
+
+    public void FillFname ()
+
     {
-        driver.findElement(By.id("username")).sendKeys(UserInfo.username);
-        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;username']"));
-        return errID;
+        driver.findElement(By.id("firstname")).sendKeys(userInfo.firstname);
     }
 
-    public WebElement FillEmail ()
+    public void FillLname ()
+
     {
-        driver.findElement(By.id("email")).sendKeys(email);
-        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;email']"));
-        return errID;
+        driver.findElement(By.id("lastname")).sendKeys(userInfo.lastname);
     }
 
-    public WebElement FillPassword ()
+    public void FillUserName ()
     {
-        driver.findElement(By.id("password")).sendKeys(password);
-        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;password']"));
-        return errID;
+        driver.findElement(By.id("username")).sendKeys(userInfo.username);
+
     }
 
-    public WebElement FillTC ()
+    public void FillEmail ()
     {
-        driver.findElement(By.id("accept_privacy")).click();
-        WebElement errID = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;terms']"));
-        return errID;
+        driver.findElement(By.id("email")).sendKeys(userInfo.email);
+
+    }
+
+    public void FillPassword ()
+    {
+        driver.findElement(By.id("password")).sendKeys(userInfo.password);
+
+    }
+
+    public void FillTerms ()
+    {
+        driver.findElement(By.xpath("//input[@data-bind-class-invalid='account;terms']")).click();
+
     }
 
     public void ClickSubmit ()
@@ -63,69 +65,44 @@ public class RegPage {
     }
 
 
-    public void ValidForm (WebDriver driver)
+    public void PopulateForm(String ... params)
     {
-        firstname="Some FirstName";
-        lastname="Some LastName";
-        username="frontend-test-user-" + randomID;
-        email="mariatesting89+" + randomID + "@gmail.com";
-        password="Welcome1";
+        
+
+    }
+
+
+    public void ValidForm ()
+    {
+        userInfo.SetValidInfo();
         FillFname();
         FillLname();
         FillUserName();
         FillEmail();
         FillPassword();
-        FillTC();
+        FillTerms();
         ClickSubmit();
+        Assert.assertEquals(true, getError("firstname"));
     }
 
-    public void BlankForm (WebDriver driver)
-    {
+    public void BlankForm () {
+        ClickSubmit();
+        Assert.assertEquals(true, getError("firstname"));
+        Assert.assertEquals(true, getError("lastname"));
+        Assert.assertEquals(true, getError("username"));
+        Assert.assertEquals(true, getError("email"));
+        Assert.assertEquals(true, getError("terms"));
+    }
+
+    public void BlankTerms () {
+        userInfo.SetValidInfo();
         FillFname();
         FillLname();
         FillUserName();
         FillEmail();
         FillPassword();
-        FillTC();
         ClickSubmit();
-
+        Assert.assertEquals(true, getError("terms"));
     }
-
-
-    public void happySubmitRegForm() {
-        String verifyTextExp = "We sent a confirmation link to " + email + ". Clicking it will grant you full access to your DaWanda account.";
-
-        ValidForm(driver);
-
-        WebElement verifyEmailSection = driver.findElement(By.id("validate_email_page"));
-        assertEquals(true, verifyEmailSection.isDisplayed());
-
-        WebElement hintSection = driver.findElement(By.id("validate_email_hint"));
-        assertEquals(true, hintSection.isDisplayed());
-
-        String verifyTextAct = driver.findElement(By.id("validate_email_hint")).getText();
-
-        assertEquals(verifyTextAct, verifyTextExp);
-
-    }
-
-    public void blankSubmitRegForm() {
-
-        boolean test =
-        assertEquals(true,FillLname().isDisplayed());
-        assertEquals(true,FillUserName().isDisplayed());
-        assertEquals(true,FillEmail().isDisplayed());
-        assertEquals(true,FillPassword().isDisplayed());
-        assertEquals(true,FillTC().isDisplayed());
-        WebElement regpageArticle = driver.findElement(By.xpath("//article[@id='registration_page']"));
-        assertEquals(true, regpageArticle.isDisplayed());
-
-    }
-
-      //  int errorCount = driver.findElements(By.xpath("//div[@class='validation-msg invalid']")).size();
-      //  assertEquals(7, errorCount);
-   // }
-
 
 }
-

@@ -19,9 +19,10 @@ public class Homepage {
 
     public void OpenHomepage(String baseUrl) {
 
+        driver.manage().window().maximize();
         driver.get(baseUrl);
-        WebElement homepageDesc = driver.findElement(By.className("homepage-description"));
-        Assert.assertEquals(true, homepageDesc.isDisplayed());
+        //WebElement homepageDesc = driver.findElement(By.className("homepage-description"));
+        //Assert.assertEquals(true, homepageDesc.isDisplayed());
 
     }
 
