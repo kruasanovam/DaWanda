@@ -26,6 +26,11 @@ public class Homepage {
 
     }
 
+    public void selectLang(String lang) {
+        driver.findElement(By.id("platform_select")).click();
+        driver.findElement(By.xpath("//li[@value='http://"+lang+".dawanda.com/']")).click();
+    }
+
     public void OpenRegPage() {
 
         String javaScript = "document.getElementById('shared_header_user_nav').classList.add('open')";

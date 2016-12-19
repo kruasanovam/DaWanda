@@ -12,12 +12,7 @@ public class UserInfo {
     public static String password;
 
 
-    public UserInfo() {
-
-
-    }
-
-    public void SetValidInfo()
+    public static void SetValidInfo()
 
     {
         int randomID = Helper.generateRandID();
@@ -28,7 +23,29 @@ public class UserInfo {
         password = "Welcome1";
     }
 
+    public static void SetSpaceInfo()
 
+    {
+        firstname = " ";
+        lastname = " ";
+        username = " ";
+        email = " ";
+        password = " ";
+    }
 
+    public static void SetExistingInfo() {
+        firstname = "Some First Name";
+        lastname = "Some Last Name";
+        username = "frontend-test-user-1095389771";
+        email = "mariatesting89+1911876990@gmail.com";
+        password = "Welcome1";
+    }
 
+    public static void SetInvalidInfo() {
+        firstname = "...";
+        lastname = ",";
+        username = "fr";
+        email = "mariatesting89+1911876990@gmail.";
+        password = "1234";
+    }
 }
