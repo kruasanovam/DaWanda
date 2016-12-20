@@ -29,6 +29,8 @@ public class RegistrationTests {
 
         helper.logout();
 
+        driver.quit();
+
     }
 
     @Test
@@ -61,6 +63,8 @@ public class RegistrationTests {
         driver.navigate().refresh();
 
         registration.attemptRegisterWithExistingEmailUsername();
+
+        driver.quit();
 
     }
 }
