@@ -1,20 +1,15 @@
+/**Methods used to set certain info for User. */
 
-
-/**
- * Created by mrusanova on 12/15/16.
- */
 public class UserInfo {
     public static String firstname;
     public static String lastname;
     public static String username;
     public static String email;
-    //public static String email = "mariatesting89+1095389771@gmail.com";
     public static String password;
 
 
-    public static void SetValidInfo()
-
-    {
+    /** Set all fields for a user to be valid. */
+    public static void setValidInfo() {
         int randomID = Helper.generateRandID();
         firstname = "Some First Name";
         lastname = "Some Last Name";
@@ -23,9 +18,8 @@ public class UserInfo {
         password = "Welcome1";
     }
 
-    public static void SetSpaceInfo()
-
-    {
+    /** Set all fields for a user to contain spaces only. */
+    public static void setSpaceInfo() {
         firstname = " ";
         lastname = " ";
         username = " ";
@@ -33,7 +27,8 @@ public class UserInfo {
         password = " ";
     }
 
-    public static void SetExistingInfo() {
+    /** Set a user with existing email and username in DB. */
+    public static void setExistingInfo() {
         firstname = "Some First Name";
         lastname = "Some Last Name";
         username = "frontend-test-user-1095389771";
@@ -41,7 +36,8 @@ public class UserInfo {
         password = "Welcome1";
     }
 
-    public static void SetInvalidInfo() {
+    /** Set all fields for a user to be invalid. */
+    public static void setInvalidInfo() {
         firstname = "...";
         lastname = ",";
         username = "fr";

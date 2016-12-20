@@ -3,67 +3,71 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static junit.framework.TestCase.assertEquals;
 
-/**
- * Created by mrusanova on 12/16/16.
- */
-public class RegPage {
+/**Methods related to Registration Page. **/
+public final class RegPage {
 
     private final WebDriver driver;
 
-    public RegPage(WebDriver driver) {
+    public  RegPage(final WebDriver driver) {
         this.driver = driver;
     }
 
-    public boolean getError (String fieldName) {
-        WebElement error = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;"+fieldName+"']/span"));
-        boolean result = error.isDisplayed();
-        return result;
-    }
-
-
-    public void FillFname () {
+    /**Populate First Name field on Registration Form. **/
+    private void fillFirstName() {
         driver.findElement(By.id("firstname")).sendKeys(UserInfo.firstname);
     }
 
-    public void FillLname () {
+    /**Populate Last Name field on Registration Form. **/
+    private void fillLastName() {
         driver.findElement(By.id("lastname")).sendKeys(UserInfo.lastname);
     }
 
-    public void FillUserName () {
+    /**Populate Username field on Registration Form. **/
+    private void fillUserName() {
         driver.findElement(By.id("username")).sendKeys(UserInfo.username);
     }
 
-    public void FillEmail () {
+    /**Populate Email field on Registration Form. **/
+    private void fillEmail() {
         driver.findElement(By.id("email")).sendKeys(UserInfo.email);
     }
 
-    public void FillPassword () {
+    /**Populate Password field on Registration Form. **/
+    private void fillPassword() {
         driver.findElement(By.id("password")).sendKeys(UserInfo.password);
     }
 
-    public void FillTerms () {
+    /**Tick on the Terms ad Conditions checkbox on Registration Form. **/
+    private void selectTerms() {
         driver.findElement(By.xpath("//input[@data-bind-class-invalid='account;terms']")).click();
     }
 
-    public void ClickSubmit () {
+    /**Click Submit CTA on Registration Form. **/
+    private void clickSubmit() {
 
         driver.findElement(By.id("register_submit")).click();
     }
 
-    public void SubmitRegForm () {
-        FillFname();
-        FillLname();
-        FillUserName();
-        FillEmail();
-        FillPassword();
-        FillTerms();
-        ClickSubmit();
+    /** Validate error message is displayed for a given field. **/
+    private boolean getError(final String fieldName) {
+        WebElement error = driver.findElement(By.xpath("//div[@class='validation-msg invalid' and @data-bind-invalid-show='account;" + fieldName + "']/span"));
+        return error.isDisplayed();
     }
 
+    /**Populate all fields on Registration Form and submit form. **/
+    private void submitRegForm() {
+        fillFirstName();
+        fillLastName();
+        fillUserName();
+        fillEmail();
+        fillPassword();
+        selectTerms();
+        clickSubmit();
+    }
 
-    public void happySubmitRegForm() {
+    /**Validate correct page is displayed on successful registration. **/
+    private void registrationSuccessful() {
         String verifyTextExp = "We sent a confirmation link to " + UserInfo.email + ". Clicking it will grant you full access to your DaWanda account.";
         WebElement verifyEmailSection = driver.findElement(By.id("validate_email_page"));
         Assert.assertEquals(true, verifyEmailSection.isDisplayed());
@@ -75,26 +79,26 @@ public class RegPage {
         Assert.assertEquals(verifyTextAct, verifyTextExp);
     }
 
-
-    public void ValidForm ()
-    {
-        UserInfo.SetValidInfo();
-        SubmitRegForm ();
-        happySubmitRegForm();
+    /**Register user with valid data and validate registration successful **/
+    public void registerWithValidData() {
+        UserInfo.setValidInfo();
+        submitRegForm();
+        registrationSuccessful();
     }
 
-    public void InvalidForm ()
-    {
-        UserInfo.SetInvalidInfo();
-        SubmitRegForm ();
+    /**Attempt to register user with some data that fails validation rules and validate registration fails. **/
+    public void atemptRegisterWithIvalidData() {
+        UserInfo.setInvalidInfo();
+        submitRegForm();
         Assert.assertEquals(true, getError("firstname"));
         Assert.assertEquals(true, getError("lastname"));
         Assert.assertEquals(true, getError("username"));
         Assert.assertEquals(true, getError("password"));
     }
 
-    public void BlankForm () {
-        ClickSubmit();
+    /**Attempt to register user with blank fields and validate registration fails. **/
+    public void attemptRegisterWithBlankForm() {
+        clickSubmit();
         Assert.assertEquals(true, getError("firstname"));
         Assert.assertEquals(true, getError("lastname"));
         Assert.assertEquals(true, getError("username"));
@@ -103,11 +107,12 @@ public class RegPage {
         Assert.assertEquals(true, getError("terms"));
     }
 
-    public void OnlySpacesForm () {
+    /**Attempt to register user with fields that contain spaces only and validate registration fails. **/
+    public void attemptRegisterWithSpacesOnly() {
 
-        UserInfo.SetSpaceInfo();
-        FillTerms();
-        ClickSubmit();
+        UserInfo.setSpaceInfo();
+        selectTerms();
+        clickSubmit();
         Assert.assertEquals(true, getError("firstname"));
         Assert.assertEquals(true, getError("lastname"));
         Assert.assertEquals(true, getError("username"));
@@ -115,19 +120,20 @@ public class RegPage {
         Assert.assertEquals(true, getError("email"));
     }
 
-    public void BlankTerms () {
-        UserInfo.SetValidInfo();
-        FillTerms();
-        SubmitRegForm ();
+    /**Attempt to register user with without checking terms and conditions flag and validate registration fails. **/
+    public void attemptRegisterNoTerms() {
+        UserInfo.setValidInfo();
+        selectTerms();
+        submitRegForm();
         Assert.assertEquals(true, getError("terms"));
     }
 
-    public void EmailUsernameExists () {
-        UserInfo.SetExistingInfo();
-        SubmitRegForm ();
+    /**Attempt to register user with email and username that already exist and validate registration fails. **/
+    public void attemptRegisterWithExistingEmailUsername() {
+        UserInfo.setExistingInfo();
+        submitRegForm();
         Assert.assertEquals(true, getError("email"));
         Assert.assertEquals(true, getError("username"));
-
 
     }
 
