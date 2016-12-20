@@ -14,7 +14,7 @@ public class UserInfo {
         firstname = "Some First Name";
         lastname = "Some Last Name";
         username = "frontend-test-user-" + randomID;
-        email = "mariatesting89+" + randomID + "@gmail.com";
+        email = " frontend-tests+-" + randomID + "@dawandamail.com";
         password = "Welcome1";
     }
 
@@ -41,7 +41,7 @@ public class UserInfo {
         firstname = "...";
         lastname = ",";
         username = "fr";
-        email = "mariatesting89+1911876990@gmail.";
+        email = "frontend-tests+-1032090980@dawandamail";
         password = "1234";
     }
 }
